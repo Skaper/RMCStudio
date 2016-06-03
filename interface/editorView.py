@@ -4,13 +4,13 @@ import editorScene
 
 
 class editorViewClass(QGraphicsView):
-    def __init__(self):
+    def __init__(self, parend=None):
         super(editorViewClass, self).__init__()
         self.setDragMode(QGraphicsView.RubberBandDrag)
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        #self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        #self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
-        self.s = editorScene.editorSceneClass()
+        self.s = editorScene.editorSceneClass(parend)
         self.setScene(self.s)
 
         self.pan = False

@@ -2,15 +2,15 @@
 import sys
 import os
 from PyQt4 import QtGui, QtCore
-from configobj import ConfigObj
+from lib.configobj import ConfigObj
 import glob
 import serial
 import socket
-from module import editorView
+from interface import editorView
 
 print 'Run'
 #sock = socket.socket()
-#sock.connect(('192.168.42.1', 6518)) #6526
+#sock.connect(('192.168.0.13', 6647)) #6526
 #sock.connect(('127.0.0.1', 6576)) #6526
 
 #sock2 = socket.socket()
@@ -38,7 +38,7 @@ from module.battery import BattaryWidget
 
 
 print 'Run'
-version = 0.2
+version = "0.0.11"
 
 class USBcommunication():
     def __init__(self):
@@ -212,8 +212,9 @@ class MainWindow(QtGui.QMainWindow):
         #self.docTerminal.setTitleBarWidget(QtGui.QWidget(self.docTerminal))
         self.docTerminal_Contents.setLayout(self.docTerminal_Layout)
         '''
-        self.view = editorView.editorViewClass()
-        self.view2 = editorView.editorViewClass()
+        self.view = editorView.editorViewClass(self)
+        self.timeLine = self.view.s.startTimeLine
+        self.view2 = editorView.editorViewClass(self)
         self.docTerminal = QtGui.QDockWidget('Terminal')
         self.docTerminal_Contents = QtGui.QWidget()
         self.docTerminal.setWidget(self.docTerminal_Contents)
@@ -225,9 +226,11 @@ class MainWindow(QtGui.QMainWindow):
         scene1 = QtGui.QLineEdit("Nao 1")
         scene1.setMaximumHeight(100)
         scene1.setMaximumWidth(100)
-        start1 = QtGui.QPushButton("Start >")
-        start1.setMaximumHeight(200)
-        start1.setMaximumWidth(200)
+        self.start1 = QtGui.QPushButton("Start >")
+        self.start1.clicked.connect(self.timeLine)
+
+        self.start1.setMaximumHeight(200)
+        self.start1.setMaximumWidth(200)
         close1 = QtGui.QPushButton("X")
         close1.setMaximumHeight(100)
         close1.setMaximumWidth(40)
@@ -237,10 +240,11 @@ class MainWindow(QtGui.QMainWindow):
 
         self.layato.addWidget(scene1, 0, 0)
         self.layato.addWidget(close1, 0, 1)
-        self.layato.addWidget(start1, 1, 0)
+        self.layato.addWidget(self.start1, 1, 0)
         self.layato.addWidget(log1, 1, 1)
         self.wiglayayot = QtGui.QWidget()
         self.wiglayayot.setLayout(self.layato)
+
 
         startAll1 = QtGui.QPushButton("Start/Pause")
         startAll1.setMaximumHeight(100)
@@ -444,6 +448,10 @@ class MainWindow(QtGui.QMainWindow):
         #self.connect(QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key_W), self), QtCore.SIGNAL('activated()'), self.tx)
 
         print 'GUI >> OK'
+
+
+    def startTime1(self):
+        self.view.s.startTime()
     def tx(self, item):
         print 'asd' + str(item.text())
     def keyPressEvent(self, event):

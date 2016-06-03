@@ -28,7 +28,7 @@ class EyeWidget(QtCore.QObject): #MoveWidget
             f = QtGui.QPushButton()
             #f.text
             size = 0
-            allFiles = os.listdir('emotion')
+            allFiles = os.listdir('images/emotion/eyes/type1')
             files1 = filter(lambda x: x.endswith('.gif'), allFiles)
             print files1
             files = sorted(files1, key = lambda x: os.path.getctime('emotion'))

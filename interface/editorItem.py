@@ -45,7 +45,8 @@ class editorItemClass(QGraphicsItem):
         painter.fillRect(QRect(self.x+4,4,self.resizePadding, self.h-8), Qt.red)
         painter.fillRect(QRect(self.x+self.w-4-self.resizePadding,4,self.resizePadding, self.h-8), Qt.red)
 
-
+    def getText(self):
+        return self.num
     def adjustpos(self):
         y = self.pos().y()
         delta = y % self.h
